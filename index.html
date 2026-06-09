@@ -638,37 +638,250 @@
       }
 
       @media (max-width: 700px) {
-        .nav-left span,
-        .phone {
-          display: none;
+        body {
+          overflow-x: hidden;
         }
 
         .topbar {
-          height: 64px;
+          height: auto;
+          min-height: 72px;
+          padding: 10px 14px;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: center;
+        }
+
+        .logo {
+          width: 42px;
+          height: 42px;
+          border-radius: 10px;
+          font-size: 21px;
+        }
+
+        .nav-left,
+        .nav-right {
+          width: 100%;
+          justify-content: center;
+          gap: 18px;
+        }
+
+        .nav-left span,
+        .nav-left button,
+        .nav-right span,
+        .nav-right a {
+          font-size: 14px;
+        }
+
+        .phone {
+          display: inline-block;
+          font-size: 16px !important;
         }
 
         .hero {
-          height: 460px;
+          height: 520px;
+          padding: 120px 16px 32px;
+          align-items: flex-start;
         }
 
         .city-card {
-          top: 64px;
-          width: 210px;
+          position: static;
+          width: 100%;
+          max-width: 320px;
+          margin: 0 auto 24px;
+          padding: 18px;
+          border-radius: 18px;
         }
 
-        .services,
-        .products,
+        .search-box {
+          position: absolute;
+          left: 50%;
+          top: 300px;
+          transform: translateX(-50%);
+          width: calc(100% - 32px);
+          max-width: 420px;
+          margin-top: 0;
+        }
+
+        .phone-processing-panel {
+          bottom: 42px;
+          width: calc(100% - 32px);
+          padding: 16px;
+          font-size: 16px;
+        }
+
+        main {
+          padding: 24px 16px 110px;
+        }
+
+        .categories {
+          gap: 18px;
+          padding-bottom: 12px;
+          margin-bottom: 26px;
+        }
+
+        .categories a {
+          font-size: 16px;
+        }
+
+        .green-popup {
+          top: 104px;
+          left: 16px;
+          right: 16px;
+          width: auto;
+          height: 150px;
+          font-size: 28px;
+        }
+
+        .electricity-popup {
+          left: 12px;
+          right: 12px;
+          top: 96px;
+          width: auto;
+          min-height: 430px;
+          padding: 26px 18px 150px;
+          border-radius: 22px;
+        }
+
+        .electricity-popup h3 {
+          font-size: 24px;
+          line-height: 1.15;
+        }
+
+        .electricity-popup p {
+          font-size: 16px;
+        }
+
+        .consultation-form {
+          flex-direction: column;
+          max-width: 100%;
+        }
+
+        .consultation-form input,
+        .consultation-form button {
+          width: 100%;
+          padding: 16px 18px;
+          font-size: 16px;
+        }
+
+        .popup-cat {
+          width: 110px;
+          height: 110px;
+          right: 18px;
+          bottom: 18px;
+        }
+
+        .running-mouse {
+          width: 54px;
+          height: 40px;
+          border-radius: 14px;
+        }
+
+        .running-cat {
+          width: 108px;
+          height: 82px;
+          border-radius: 22px;
+        }
+
         .banner-grid,
-        .promo-grid {
+        .promo-grid,
+        .services,
+        .products {
           grid-template-columns: 1fr;
+          gap: 18px;
+        }
+
+        .banner {
+          height: 180px;
         }
 
         .service-main {
           grid-column: span 1;
+          height: 180px;
+        }
+
+        .service-icon {
+          margin-bottom: 20px;
+        }
+
+        .promo {
+          height: 220px;
+        }
+
+        .products-head {
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        .section-title {
+          font-size: 26px;
+          margin-bottom: 24px;
+        }
+
+        .arrows {
+          font-size: 28px;
+          gap: 18px;
         }
 
         .product-card {
           min-height: auto;
+          padding: 18px;
+          border-radius: 22px;
+          box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-img {
+          height: 220px;
+        }
+
+        .product-name {
+          font-size: 19px;
+          margin-bottom: 24px;
+        }
+
+        .price-row {
+          flex-wrap: wrap;
+          margin-bottom: 22px;
+        }
+
+        .price {
+          font-size: 24px;
+        }
+
+        .old-price {
+          font-size: 21px;
+        }
+
+        .buy-row {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .unit,
+        .cart-btn {
+          width: 100%;
+          height: 54px;
+        }
+
+        .cookie {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 12px;
+          padding: 14px 16px;
+          font-size: 13px;
+          text-align: center;
+        }
+
+        .cookie button {
+          width: 100%;
+          min-width: 0;
+        }
+
+        .scroll-top {
+          right: 18px;
+          bottom: 120px;
+          width: 48px;
+          height: 48px;
+          font-size: 22px;
         }
       }
     </style>
@@ -907,142 +1120,142 @@
       <span>мы используем файлы cookie, оставаясь на сайте вы соглашаетесь на их использование <u>подробнее</u></span>
       <button>хорошо</button>
     </div>
-  </body>
-  <script>
-    const electricityWrapper = document.querySelector(".electricity-wrapper");
-    let electricityTimer;
-    const phoneConsultationInput = document.querySelector(".phone-consultation-input");
-    const consultationForm = document.querySelector(".consultation-form");
-    const phoneProcessingPanel = document.querySelector("#phone-processing-panel");
-    const processedPhone = document.querySelector("#processed-phone");
-    let chaseAnimationStarted = false;
+    <script>
+      const electricityWrapper = document.querySelector(".electricity-wrapper");
+      let electricityTimer;
+      const phoneConsultationInput = document.querySelector(".phone-consultation-input");
+      const consultationForm = document.querySelector(".consultation-form");
+      const phoneProcessingPanel = document.querySelector("#phone-processing-panel");
+      const processedPhone = document.querySelector("#processed-phone");
+      let chaseAnimationStarted = false;
 
-    electricityWrapper.addEventListener("mouseenter", () => {
-      clearTimeout(electricityTimer);
-      electricityWrapper.classList.add("is-open");
-    });
+      electricityWrapper.addEventListener("mouseenter", () => {
+        clearTimeout(electricityTimer);
+        electricityWrapper.classList.add("is-open");
+      });
 
-    electricityWrapper.addEventListener("mouseleave", () => {
-      electricityTimer = setTimeout(() => {
+      electricityWrapper.addEventListener("mouseleave", () => {
+        electricityTimer = setTimeout(() => {
+          electricityWrapper.classList.remove("is-open");
+        }, 5000);
+      });
+
+      function createFireworks() {
+        const fireworksLayer = document.createElement("div");
+        fireworksLayer.className = "chase-layer";
+        document.body.appendChild(fireworksLayer);
+
+        for (let burst = 0; burst < 16; burst++) {
+          const centerX = Math.random() * window.innerWidth;
+          const centerY = Math.random() * window.innerHeight;
+
+          for (let i = 0; i < 70; i++) {
+            const particle = document.createElement("span");
+            const angle = (Math.PI * 2 * i) / 70;
+            const distance = 170 + Math.random() * 410;
+            particle.className = "firework-particle";
+            particle.style.left = `${centerX}px`;
+            particle.style.top = `${centerY}px`;
+            particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+            particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+            particle.style.setProperty("--hue", `${Math.floor(Math.random() * 360)}`);
+            fireworksLayer.appendChild(particle);
+          }
+        }
+
+        setTimeout(() => {
+          fireworksLayer.remove();
+        }, 2600);
+      }
+
+      function startCatMouseChase() {
+        if (chaseAnimationStarted) return;
+        chaseAnimationStarted = true;
+
+        const chaseLayer = document.createElement("div");
+        const mouse = document.createElement("img");
+        const cat = document.createElement("img");
+
+        chaseLayer.className = "chase-layer";
+        mouse.className = "running-mouse";
+        mouse.src = "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=220&q=80";
+        mouse.alt = "мышка бежит по экрану";
+        cat.className = "running-cat";
+        cat.src = "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80";
+        cat.alt = "кошка бежит за мышкой";
+
+        chaseLayer.appendChild(mouse);
+        chaseLayer.appendChild(cat);
+        document.body.appendChild(chaseLayer);
+
+        const duration = 15000;
+        const startTime = performance.now();
+        let catX = -120;
+        let catY = window.innerHeight - 140;
+
+        function animateChase(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const mouseX = 40 + progress * (window.innerWidth - 120);
+          const mouseY = 120 + Math.sin(progress * Math.PI * 8) * 130 + progress * (window.innerHeight - 280);
+
+          catX += (mouseX - catX - 55) * 0.035;
+          catY += (mouseY - catY + 18) * 0.035;
+
+          if (progress > 0.88) {
+            catX += (mouseX - catX - 10) * 0.09;
+            catY += (mouseY - catY - 10) * 0.09;
+          }
+
+          mouse.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+          cat.style.transform = `translate(${catX}px, ${catY}px) scaleX(${mouseX > catX ? 1 : -1})`;
+
+          if (progress < 1) {
+            requestAnimationFrame(animateChase);
+          } else {
+            cat.style.transform = `translate(${mouseX - 25}px, ${mouseY - 45}px)`;
+            mouse.style.display = "none";
+            createFireworks();
+
+            setTimeout(() => {
+              chaseLayer.remove();
+              chaseAnimationStarted = false;
+            }, 1800);
+          }
+        }
+
+        requestAnimationFrame(animateChase);
+      }
+
+      consultationForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const phoneValue = phoneConsultationInput.value.trim();
+
+        if (!phoneValue) return;
+
+        processedPhone.textContent = phoneValue;
+        phoneProcessingPanel.classList.add("is-visible");
         electricityWrapper.classList.remove("is-open");
-      }, 5000);
-    });
+        phoneConsultationInput.blur();
+        startCatMouseChase();
+      });
 
-    function createFireworks() {
-      const fireworksLayer = document.createElement("div");
-      fireworksLayer.className = "chase-layer";
-      document.body.appendChild(fireworksLayer);
+      const shopsButton = document.querySelector(".shops-link");
+      const shopsPopup = document.querySelector("#shops-popup");
 
-      for (let burst = 0; burst < 16; burst++) {
-        const centerX = Math.random() * window.innerWidth;
-        const centerY = Math.random() * window.innerHeight;
+      shopsButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        shopsPopup.classList.add("is-visible");
+      });
 
-        for (let i = 0; i < 70; i++) {
-          const particle = document.createElement("span");
-          const angle = (Math.PI * 2 * i) / 70;
-          const distance = 170 + Math.random() * 410;
-          particle.className = "firework-particle";
-          particle.style.left = `${centerX}px`;
-          particle.style.top = `${centerY}px`;
-          particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
-          particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
-          particle.style.setProperty("--hue", `${Math.floor(Math.random() * 360)}`);
-          fireworksLayer.appendChild(particle);
-        }
-      }
-
-      setTimeout(() => {
-        fireworksLayer.remove();
-      }, 2600);
-    }
-
-    function startCatMouseChase() {
-      if (chaseAnimationStarted) return;
-      chaseAnimationStarted = true;
-
-      const chaseLayer = document.createElement("div");
-      const mouse = document.createElement("img");
-      const cat = document.createElement("img");
-
-      chaseLayer.className = "chase-layer";
-      mouse.className = "running-mouse";
-      mouse.src = "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=220&q=80";
-      mouse.alt = "мышка бежит по экрану";
-      cat.className = "running-cat";
-      cat.src = "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80";
-      cat.alt = "кошка бежит за мышкой";
-
-      chaseLayer.appendChild(mouse);
-      chaseLayer.appendChild(cat);
-      document.body.appendChild(chaseLayer);
-
-      const duration = 15000;
-      const startTime = performance.now();
-      let catX = -120;
-      let catY = window.innerHeight - 140;
-
-      function animateChase(now) {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const mouseX = 40 + progress * (window.innerWidth - 120);
-        const mouseY = 120 + Math.sin(progress * Math.PI * 8) * 130 + progress * (window.innerHeight - 280);
-
-        catX += (mouseX - catX - 55) * 0.035;
-        catY += (mouseY - catY + 18) * 0.035;
-
-        if (progress > 0.88) {
-          catX += (mouseX - catX - 10) * 0.09;
-          catY += (mouseY - catY - 10) * 0.09;
-        }
-
-        mouse.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-        cat.style.transform = `translate(${catX}px, ${catY}px) scaleX(${mouseX > catX ? 1 : -1})`;
-
-        if (progress < 1) {
-          requestAnimationFrame(animateChase);
-        } else {
-          cat.style.transform = `translate(${mouseX - 25}px, ${mouseY - 45}px)`;
-          mouse.style.display = "none";
-          createFireworks();
-
-          setTimeout(() => {
-            chaseLayer.remove();
-            chaseAnimationStarted = false;
-          }, 1800);
-        }
-      }
-
-      requestAnimationFrame(animateChase);
-    }
-
-    consultationForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const phoneValue = phoneConsultationInput.value.trim();
-
-      if (!phoneValue) return;
-
-      processedPhone.textContent = phoneValue;
-      phoneProcessingPanel.classList.add("is-visible");
-      electricityWrapper.classList.remove("is-open");
-      phoneConsultationInput.blur();
-      startCatMouseChase();
-    });
-
-    const shopsButton = document.querySelector(".shops-link");
-    const shopsPopup = document.querySelector("#shops-popup");
-
-    shopsButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      shopsPopup.classList.add("is-visible");
-    });
-
-    shopsPopup.addEventListener("mouseleave", () => {
-      shopsPopup.classList.remove("is-visible");
-    });
-
-    document.addEventListener("click", (event) => {
-      if (!shopsPopup.contains(event.target) && !shopsButton.contains(event.target)) {
+      shopsPopup.addEventListener("mouseleave", () => {
         shopsPopup.classList.remove("is-visible");
-      }
-    });
-  </script>
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!shopsPopup.contains(event.target) && !shopsButton.contains(event.target)) {
+          shopsPopup.classList.remove("is-visible");
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Строительный маркет</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #ffffff;
+        color: #111;
+      }
+
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 72px;
+        z-index: 20;
+        background: rgba(24, 24, 24, 0.78);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 72px;
+        color: #fff;
+      }
+
+      .logo {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        background: #ffad00;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 26px;
+        color: #111;
+        transform: rotate(-8deg);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+      }
+
+      .nav-left,
+      .nav-center,
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+      }
+
+      .nav-left span,
+      .nav-left a,
+      .nav-left button,
+      .nav-center a,
+      .nav-right span,
+      .nav-right a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .phone {
+        font-size: 22px !important;
+        letter-spacing: 1px;
+      }
+
+      .shops-link {
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-family: inherit;
+      }
+
+      .green-popup.is-visible {
+        display: flex;
+      }
+
+      .green-popup {
+        position: fixed;
+        top: 92px;
+        left: 175px;
+        width: 320px;
+        height: 180px;
+        background: rgba(29, 150, 78, 0.72);
+        color: #fff;
+        border-radius: 18px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 900;
+        z-index: 50;
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(8px);
+      }
+
+      .electricity-wrapper {
+        position: relative;
+      }
+
+      .electricity-popup {
+        position: fixed;
+        left: 25%;
+        top: 24%;
+        width: 50vw;
+        min-height: 50vh;
+        background: rgba(83, 190, 255, 0.92);
+        border-radius: 28px;
+        padding: 44px;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        z-index: 60;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(8px);
+        color: #07324a;
+      }
+
+      .electricity-wrapper:hover .electricity-popup,
+      .electricity-wrapper.is-open .electricity-popup {
+        display: flex;
+      }
+
+      .electricity-popup h3 {
+        font-size: 34px;
+        margin-bottom: 16px;
+      }
+
+      .electricity-popup p {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 26px;
+      }
+
+      .consultation-form {
+        display: flex;
+        gap: 14px;
+        max-width: 560px;
+      }
+
+      .consultation-form input {
+        flex: 1;
+        border: none;
+        border-radius: 999px;
+        padding: 18px 22px;
+        font-size: 18px;
+        outline: none;
+      }
+
+      .consultation-form button {
+        border: none;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #07324a;
+        padding: 18px 28px;
+        font-size: 17px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .popup-cat {
+        position: absolute;
+        right: 28px;
+        bottom: 18px;
+        width: 130px;
+        height: 130px;
+        border-radius: 26px;
+        object-fit: cover;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+      }
+
+      .chase-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 200;
+        overflow: hidden;
+      }
+
+      .running-mouse {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 76px;
+        height: 54px;
+        border-radius: 18px;
+        object-fit: cover;
+        transform: translate(-120px, -120px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.24);
+      }
+
+      .running-cat {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 150px;
+        height: 108px;
+        border-radius: 28px;
+        object-fit: cover;
+        transform: translate(-160px, -160px);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+      }
+
+      .firework-particle {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: hsl(var(--hue), 100%, 62%);
+        box-shadow: 0 0 24px hsl(var(--hue), 100%, 62%);
+        animation: firework-burst 2s ease-out forwards;
+        transform: translate(-50%, -50%);
+      }
+
+      @keyframes firework-burst {
+        to {
+          transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(0.1);
+          opacity: 0;
+        }
+      }
+
+      .phone-processing-panel {
+        position: absolute;
+        left: 50%;
+        bottom: 96px;
+        transform: translateX(-50%);
+        display: none;
+        width: min(680px, 90%);
+        padding: 20px 26px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 18px 44px rgba(0, 0, 0, 0.25);
+        text-align: center;
+        font-size: 20px;
+        font-weight: 900;
+        color: #07324a;
+        z-index: 12;
+      }
+
+      .phone-processing-panel.is-visible {
+        display: block;
+      }
+
+      .hero {
+        position: relative;
+        height: 690px;
+        background:
+          linear-gradient(rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.06)),
+          url("https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=1800&q=80") center/cover
+            no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .city-card {
+        position: absolute;
+        top: 72px;
+        left: 205px;
+        width: 240px;
+        background: #fff;
+        padding: 24px;
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      }
+
+      .city-card p {
+        font-weight: 700;
+        font-size: 15px;
+        margin-bottom: 16px;
+      }
+
+      .city-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-yellow,
+      .btn-outline {
+        border: none;
+        border-radius: 999px;
+        padding: 12px 28px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .btn-yellow {
+        background: #ffad00;
+        color: #111;
+      }
+
+      .btn-outline {
+        background: #fff;
+        border: 1px solid #888;
+        color: #111;
+      }
+
+      .search-box {
+        width: 640px;
+        height: 42px;
+        background: #fff;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 22px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+        margin-top: 130px;
+      }
+
+      .search-box span {
+        font-size: 22px;
+        color: #444;
+      }
+
+      main {
+        padding: 34px 64px 110px;
+      }
+
+      .categories {
+        display: flex;
+        gap: 36px;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-bottom: 34px;
+        padding-bottom: 6px;
+      }
+
+      .categories a {
+        color: #555;
+        font-size: 18px;
+        text-decoration: underline;
+        text-underline-offset: 6px;
+      }
+
+      .banner-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 22px;
+        margin-bottom: 80px;
+      }
+
+      .banner {
+        height: 150px;
+        border-radius: 2px;
+        overflow: hidden;
+        background: #f2f2f2;
+        position: relative;
+      }
+
+      .banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .section-title {
+        font-size: 31px;
+        font-weight: 900;
+        text-transform: lowercase;
+        margin-bottom: 34px;
+      }
+
+      .services {
+        display: grid;
+        grid-template-columns: 280px repeat(5, 1fr);
+        gap: 38px;
+        align-items: center;
+        margin-bottom: 82px;
+      }
+
+      .service-main {
+        height: 280px;
+        background: #ffad00;
+        padding: 28px 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        font-size: 24px;
+        font-weight: 900;
+        text-transform: lowercase;
+      }
+
+      .round-arrow {
+        width: 44px;
+        height: 44px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+      }
+
+      .service-item {
+        text-align: center;
+      }
+
+      .service-icon {
+        font-size: 72px;
+        color: #444;
+        margin-bottom: 46px;
+        text-shadow: 8px 8px 0 #ffd063;
+      }
+
+      .service-pill {
+        background: #f4f4f4;
+        border-radius: 999px;
+        padding: 15px 20px;
+        font-weight: 800;
+        text-transform: lowercase;
+      }
+
+      .promo-grid {
+        display: grid;
+        grid-template-columns: 1.55fr 0.7fr 0.7fr;
+        gap: 22px;
+        margin-bottom: 72px;
+      }
+
+      .promo {
+        height: 300px;
+        overflow: hidden;
+        background: #eee;
+      }
+
+      .promo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .products-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 46px;
+      }
+
+      .arrows {
+        display: flex;
+        gap: 36px;
+        font-size: 36px;
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(180px, 1fr));
+        gap: 38px;
+      }
+
+      .product-card {
+        min-height: 520px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .product-card.featured {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.09);
+      }
+
+      .product-img {
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      .product-img img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .product-name {
+        font-size: 22px;
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 44px;
+      }
+
+      .price-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 32px;
+      }
+
+      .price {
+        font-size: 28px;
+        font-weight: 900;
+      }
+
+      .old-price {
+        font-size: 25px;
+        font-weight: 800;
+        color: #aaa;
+        text-decoration: line-through;
+      }
+
+      .bonus {
+        margin-left: auto;
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .plus {
+        display: inline-flex;
+        width: 23px;
+        height: 23px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #ffad00;
+        margin-right: 3px;
+      }
+
+      .buy-row {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+
+      .unit {
+        width: 74px;
+        height: 62px;
+        border: 1px solid #aaa;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 19px;
+      }
+
+      .cart-btn {
+        flex: 1;
+        height: 62px;
+        border-radius: 999px;
+        background: #ffad00;
+        border: none;
+        font-weight: 900;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .cookie {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 -5px 24px rgba(0, 0, 0, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 26px;
+        padding: 16px;
+        z-index: 30;
+        font-size: 16px;
+      }
+
+      .cookie button {
+        min-width: 210px;
+        background: #ffad00;
+        border: none;
+        border-radius: 999px;
+        padding: 12px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      .scroll-top {
+        position: fixed;
+        right: 36px;
+        bottom: 70px;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.13);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        z-index: 22;
+      }
+
+      @media (max-width: 1100px) {
+        .topbar {
+          padding: 0 24px;
+        }
+
+        .nav-center {
+          display: none;
+        }
+
+        .hero {
+          height: 520px;
+        }
+
+        .city-card {
+          left: 24px;
+        }
+
+        .search-box {
+          width: 80%;
+        }
+
+        main {
+          padding: 28px 22px 100px;
+        }
+
+        .services,
+        .products,
+        .banner-grid,
+        .promo-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .service-main {
+          grid-column: span 2;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .nav-left span,
+        .phone {
+          display: none;
+        }
+
+        .topbar {
+          height: 64px;
+        }
+
+        .hero {
+          height: 460px;
+        }
+
+        .city-card {
+          top: 64px;
+          width: 210px;
+        }
+
+        .services,
+        .products,
+        .banner-grid,
+        .promo-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .service-main {
+          grid-column: span 1;
+        }
+
+        .product-card {
+          min-height: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="nav-left">
+        <div class="logo">🏠</div>
+        <span>⌁ Тюмень</span>
+        <button class="shops-link" type="button">магазины</button>
+      </div>
+
+      <nav class="nav-center">
+        <a href="#">акции</a>
+        <a href="#">услуги</a>
+        <a href="#">бизнесу</a>
+      </nav>
+
+      <div class="nav-right">
+        <a
+          class="phone"
+          href="https://sdvor.com/tmn?srsltid=AfmBOopPg4sZYkuVuXTYRigu25o2eUVo4_VsFz2p6vndZZluUvWTkbH9"
+          target="_blank"
+          rel="noopener noreferrer"
+          >8 800 333-55-77</a
+        >
+        <span>♡</span>
+        <span>🛒</span>
+      </div>
+    </header>
+
+    <div id="shops-popup" class="green-popup">ту ту ту</div>
+
+    <section class="hero">
+      <div class="city-card">
+        <p>Ваш город Тюмень?</p>
+        <div class="city-actions">
+          <button class="btn-yellow">да</button>
+          <button class="btn-outline">другой</button>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <span>⌕</span>
+        <span>☰</span>
+      </div>
+
+      <div class="phone-processing-panel" id="phone-processing-panel">
+        Номер отправлен на главный экран для дальнейшей обработки: <span id="processed-phone"></span>
+      </div>
+    </section>
+
+    <main>
+      <nav class="categories">
+        <a href="#">строительные материалы</a>
+        <a href="#">кровля и фасад</a>
+        <a href="#">интерьер и отделка</a>
+        <a href="#">инструмент и оборудование</a>
+        <a href="#">водоснабжение и водоотведение</a>
+        <a href="#">отопительное оборудование</a>
+        <span class="electricity-wrapper">
+          <a href="#">электрика</a>
+          <div class="electricity-popup">
+            <h3>Нужна консультация по электрике?</h3>
+            <p>Введите номер телефона, и наш специалист поможет выбрать товары.</p>
+            <form class="consultation-form">
+              <input class="phone-consultation-input" type="tel" placeholder="Ваш номер телефона" required />
+              <button type="submit">отправить</button>
+            </form>
+            <img
+              class="popup-cat"
+              src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=300&q=80"
+              alt="милая кошечка"
+            />
+          </div>
+        </span>
+      </nav>
+
+      <section class="banner-grid">
+        <div class="banner">
+          <img
+            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=700&q=80"
+            alt="строительство"
+          />
+        </div>
+        <div class="banner">
+          <img
+            src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=700&q=80"
+            alt="фасад"
+          />
+        </div>
+        <div class="banner">
+          <img
+            src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=700&q=80"
+            alt="инструменты"
+          />
+        </div>
+      </section>
+
+      <h2 class="section-title">услуги и сервисы</h2>
+
+      <section class="services">
+        <div class="service-main">
+          <span>все услуги</span>
+          <span class="round-arrow">→</span>
+        </div>
+
+        <div class="service-item">
+          <div class="service-icon">▯</div>
+          <div class="service-pill">приложение</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">⌒</div>
+          <div class="service-pill">оплата частями</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">⌖</div>
+          <div class="service-pill">забери по пути</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">🚚</div>
+          <div class="service-pill">доставка</div>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">＋</div>
+          <div class="service-pill">программа лояльности</div>
+        </div>
+      </section>
+
+      <section class="promo-grid">
+        <div class="promo">
+          <img
+            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=900&q=80"
+            alt="работа"
+          />
+        </div>
+        <div class="promo">
+          <img
+            src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=500&q=80"
+            alt="инструмент"
+          />
+        </div>
+        <div class="promo">
+          <img
+            src="https://images.unsplash.com/photo-1595841696677-6489ff3f8cd1?auto=format&fit=crop&w=500&q=80"
+            alt="плитка"
+          />
+        </div>
+      </section>
+
+      <div class="products-head">
+        <h2 class="section-title">популярные товары</h2>
+        <div class="arrows"><span>←</span><span>→</span></div>
+      </div>
+
+      <section class="products">
+        <article class="product-card featured">
+          <div>
+            <div class="product-img">
+              <img
+                src="https://images.unsplash.com/photo-1617957743097-0d20aa2ea762?auto=format&fit=crop&w=500&q=80"
+                alt="блок"
+              />
+            </div>
+            <h3 class="product-name">Блок газобетонный 200x250x625мм D500 Юнкер</h3>
+            <div class="price-row">
+              <span class="price">5 390 ₽</span>
+              <span class="old-price">5 000 ₽</span>
+              <span class="bonus"><span class="plus">+</span>55</span>
+            </div>
+          </div>
+          <div class="buy-row">
+            <div class="unit">м³⌄</div>
+            <button class="cart-btn">в корзину</button>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img">
+            <img
+              src="https://images.unsplash.com/photo-1600566753051-f0b89df2dd90?auto=format&fit=crop&w=500&q=80"
+              alt="поликарбонат"
+            />
+          </div>
+          <h3 class="product-name">Поликарбонат сотовый прозрачный 6мм 2,1x6м</h3>
+          <div class="price-row">
+            <span class="price" style="color: #5d8750">4 200 ₽</span><span class="old-price">4 450 ₽</span
+            ><span class="bonus"><span class="plus">+</span>33</span>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img">
+            <img
+              src="https://images.unsplash.com/photo-1611486212557-88be5ff6f941?auto=format&fit=crop&w=500&q=80"
+              alt="кондиционер"
+            />
+          </div>
+          <h3 class="product-name">Сплит-система Eclipse ECP-09PN Ultima Comfort комплект</h3>
+          <div class="price-row">
+            <span class="price">15 623 ₽</span><span class="bonus"><span class="plus">+</span>124</span>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img">
+            <img
+              src="https://images.unsplash.com/photo-1597404294360-feeeda04612e?auto=format&fit=crop&w=500&q=80"
+              alt="плитка"
+            />
+          </div>
+          <h3 class="product-name">Плитка тротуарная 8 кирпичей 400x400x50мм серая</h3>
+          <div class="price-row">
+            <span class="price">231 ₽</span><span class="bonus"><span class="plus">+</span>3</span>
+          </div>
+        </article>
+
+        <article class="product-card">
+          <div class="product-img">
+            <img
+              src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&w=500&q=80"
+              alt="профнастил"
+            />
+          </div>
+          <h3 class="product-name">Профнастил МП20 1150x2000мм серый графит</h3>
+          <div class="price-row">
+            <span class="price">1 230 ₽</span><span class="bonus"><span class="plus">+</span>11</span>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div class="scroll-top">↑</div>
+
+    <div class="cookie">
+      <span>мы используем файлы cookie, оставаясь на сайте вы соглашаетесь на их использование <u>подробнее</u></span>
+      <button>хорошо</button>
+    </div>
+  </body>
+  <script>
+    const electricityWrapper = document.querySelector(".electricity-wrapper");
+    let electricityTimer;
+    const phoneConsultationInput = document.querySelector(".phone-consultation-input");
+    const consultationForm = document.querySelector(".consultation-form");
+    const phoneProcessingPanel = document.querySelector("#phone-processing-panel");
+    const processedPhone = document.querySelector("#processed-phone");
+    let chaseAnimationStarted = false;
+
+    electricityWrapper.addEventListener("mouseenter", () => {
+      clearTimeout(electricityTimer);
+      electricityWrapper.classList.add("is-open");
+    });
+
+    electricityWrapper.addEventListener("mouseleave", () => {
+      electricityTimer = setTimeout(() => {
+        electricityWrapper.classList.remove("is-open");
+      }, 5000);
+    });
+
+    function createFireworks() {
+      const fireworksLayer = document.createElement("div");
+      fireworksLayer.className = "chase-layer";
+      document.body.appendChild(fireworksLayer);
+
+      for (let burst = 0; burst < 16; burst++) {
+        const centerX = Math.random() * window.innerWidth;
+        const centerY = Math.random() * window.innerHeight;
+
+        for (let i = 0; i < 70; i++) {
+          const particle = document.createElement("span");
+          const angle = (Math.PI * 2 * i) / 70;
+          const distance = 170 + Math.random() * 410;
+          particle.className = "firework-particle";
+          particle.style.left = `${centerX}px`;
+          particle.style.top = `${centerY}px`;
+          particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+          particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+          particle.style.setProperty("--hue", `${Math.floor(Math.random() * 360)}`);
+          fireworksLayer.appendChild(particle);
+        }
+      }
+
+      setTimeout(() => {
+        fireworksLayer.remove();
+      }, 2600);
+    }
+
+    function startCatMouseChase() {
+      if (chaseAnimationStarted) return;
+      chaseAnimationStarted = true;
+
+      const chaseLayer = document.createElement("div");
+      const mouse = document.createElement("img");
+      const cat = document.createElement("img");
+
+      chaseLayer.className = "chase-layer";
+      mouse.className = "running-mouse";
+      mouse.src = "https://images.unsplash.com/photo-1425082661705-1834bfd09dca?auto=format&fit=crop&w=220&q=80";
+      mouse.alt = "мышка бежит по экрану";
+      cat.className = "running-cat";
+      cat.src = "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80";
+      cat.alt = "кошка бежит за мышкой";
+
+      chaseLayer.appendChild(mouse);
+      chaseLayer.appendChild(cat);
+      document.body.appendChild(chaseLayer);
+
+      const duration = 15000;
+      const startTime = performance.now();
+      let catX = -120;
+      let catY = window.innerHeight - 140;
+
+      function animateChase(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const mouseX = 40 + progress * (window.innerWidth - 120);
+        const mouseY = 120 + Math.sin(progress * Math.PI * 8) * 130 + progress * (window.innerHeight - 280);
+
+        catX += (mouseX - catX - 55) * 0.035;
+        catY += (mouseY - catY + 18) * 0.035;
+
+        if (progress > 0.88) {
+          catX += (mouseX - catX - 10) * 0.09;
+          catY += (mouseY - catY - 10) * 0.09;
+        }
+
+        mouse.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        cat.style.transform = `translate(${catX}px, ${catY}px) scaleX(${mouseX > catX ? 1 : -1})`;
+
+        if (progress < 1) {
+          requestAnimationFrame(animateChase);
+        } else {
+          cat.style.transform = `translate(${mouseX - 25}px, ${mouseY - 45}px)`;
+          mouse.style.display = "none";
+          createFireworks();
+
+          setTimeout(() => {
+            chaseLayer.remove();
+            chaseAnimationStarted = false;
+          }, 1800);
+        }
+      }
+
+      requestAnimationFrame(animateChase);
+    }
+
+    consultationForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const phoneValue = phoneConsultationInput.value.trim();
+
+      if (!phoneValue) return;
+
+      processedPhone.textContent = phoneValue;
+      phoneProcessingPanel.classList.add("is-visible");
+      electricityWrapper.classList.remove("is-open");
+      phoneConsultationInput.blur();
+      startCatMouseChase();
+    });
+
+    const shopsButton = document.querySelector(".shops-link");
+    const shopsPopup = document.querySelector("#shops-popup");
+
+    shopsButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      shopsPopup.classList.add("is-visible");
+    });
+
+    shopsPopup.addEventListener("mouseleave", () => {
+      shopsPopup.classList.remove("is-visible");
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!shopsPopup.contains(event.target) && !shopsButton.contains(event.target)) {
+        shopsPopup.classList.remove("is-visible");
+      }
+    });
+  </script>
+</html>
